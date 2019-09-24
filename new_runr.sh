@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# python neural_style.py --content audrey/sources/kd.PNG --styles audrey/paintings/abstraction.jpg --output audrey/output/nightmaredeez.jpg --iterations 500 --checkpoint-output audrey/output/checkpoint/nightmare_deez_%s.jpg --checkpoint-iterations 50
+# python neural_style.py --content audrey/sources/mondrian.png --styles audrey/paintings/beetlejuice.jpg --output audrey/output/capitalaart.jpg --iterations 500 --checkpoint-output audrey/output/checkpoint/capitalaart_%s.jpg --checkpoint-iterations 50
+python neural_style.py --content audrey/sources/southphilly.png --styles audrey/paintings/solarflare.jpg --output audrey/output/solarsouthphilly.jpg --iterations 500 --checkpoint-output audrey/output/checkpoint/solarsouthphilly_%s.jpg --checkpoint-iterations 50
+python neural_style.py --content audrey/sources/sorrel.jpg --styles audrey/paintings/beetlejuice.jpg --output audrey/output/sorrelbeetle.jpg --iterations 500 --checkpoint-output audrey/output/checkpoint/sorrelbeetle_%s.jpg --checkpoint-iterations 50
+python neural_style.py --content audrey/sources/chinatown.png --styles audrey/paintings/abstraction.jpg --output audrey/output/chinatownabstraction.jpg --iterations 500 --checkpoint-output audrey/output/checkpoint/chinatownabstraction_%s.jpg --checkpoint-iterations 50
+python neural_style.py --content audrey/sources/toronto.JPG --styles audrey/paintings/beetlejuice.jpg --output audrey/output/torontobeetles.jpg --iterations 500 --checkpoint-output audrey/output/checkpoint/torontobeetles_%s.jpg --checkpoint-iterations 50
+python neural_style.py --content audrey/sources/idyllic.JPG --styles audrey/paintings/solarflare.jpg --output audrey/output/idyllicflare.jpg --iterations 500 --checkpoint-output audrey/output/checkpoint/idyllicflare_%s.jpg --checkpoint-iterations 50
+python neural_style.py --content audrey/sources/bourse.jpg --styles audrey/paintings/ripple.jpg --output audrey/output/ripplebourse.jpg --iterations 500 --checkpoint-output audrey/output/checkpoint/ripplebourse_%s.jpg --checkpoint-iterations 50

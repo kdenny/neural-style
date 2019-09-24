@@ -10,6 +10,10 @@ import numpy as np
 import scipy.misc
 
 from stylize import stylize
+from slackclient import SlackClient
+import time
+from datetime import datetime
+
 
 
 # default arguments
@@ -130,6 +134,8 @@ def main():
     content_image = imread(options.content)
     style_images = [imread(style) for style in options.styles]
 
+    options.overwrite = True
+
     width = options.width
     if width is not None:
         new_shape = (int(math.floor(float(content_image.shape[0]) /
@@ -173,7 +179,7 @@ def main():
     if os.path.isfile(options.output) and not options.overwrite:
         raise IOError("%s already exists, will not replace it without the '--overwrite' flag" % options.output)
     try:
-        imsave(options.output, np.zeros((500, 500, 3)))
+        imsave(options.output, np.zeros((500, 500, 3)), 'test')
     except:
         raise IOError('%s is not writable or does not have a valid file extension for an image file' % options.output)
 
@@ -201,7 +207,7 @@ def main():
         checkpoint_iterations=options.checkpoint_iterations,
     ):
         if (image is not None) and options.checkpoint_output:
-            imsave(options.checkpoint_output % iteration, image)
+            imsave(options.checkpoint_output % iteration, image, 'checkpoint')
         if (loss_vals is not None) \
                 and (options.progress_plot or options.progress_write):
             if loss_arrs is None:
@@ -211,7 +217,7 @@ def main():
                 loss_arrs[key].append(val)
             itr.append(iteration)
 
-    imsave(options.output, image)
+    imsave(options.output, image, 'final')
 
     if options.progress_write:
         fn = "{}/progress.txt".format(os.path.dirname(options.output))
@@ -246,9 +252,37 @@ def imread(path):
     return img
 
 
-def imsave(path, img):
+def imsave(path, img, stype):
     img = np.clip(img, 0, 255).astype(np.uint8)
     Image.fromarray(img).save(path, quality=95)
+
+    SLACK_VERIFICATION_TOKEN = 'gAiEYuPoqPboHFoUNb5AaC4y'
+    SLACK_BOT_USER_TOKEN = 'xoxb-270108836311-DrO094qLzAfsbL3QKqXY89T3'
+    Client = SlackClient(SLACK_BOT_USER_TOKEN)
+
+    text = path
+    print(datetime.now())
+    pathparts = str(path).split("/")
+    title = pathparts[len(pathparts)-1]
+
+    if stype == 'checkpoint' or stype == 'final':
+        if '150' not in title and '200' not in title and '350' not in title and '450' not in title:
+            channel = 'U6HC4A1T8'
+            file = '/Users/kevindenny/Documents/neural-style/' + path
+            fn = '@' + path
+            print("")
+            with open(file,'rb') as imagefile:
+                c = Client.api_call(
+                    "files.upload",
+                    channels=channel,
+                    filetype='jpg',
+                    filename=file,
+                    file=imagefile,
+                    title=title
+                )
+                print("")
+
+
 
 if __name__ == '__main__':
     main()
